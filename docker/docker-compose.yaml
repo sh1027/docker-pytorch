@@ -1,0 +1,20 @@
+services:
+  pytorch-env:
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+    image: ${USER}/pytorch:113
+    build:
+      args:
+        - USER_NAME=${USER}
+        - GROUP_NAME=${USER}
+        - UID=${UID}
+        - GID=${GID}
+        - WORKDIR=/workspace
+      context: .
+      dockerfile: Dockerfile
+    tty: true
+    volumes:
+      - "${WORKDIR_LOCAL}:/workspace/"
+    ports:
+      - "${HOST_PORT}:${CONTAINER_PORT}"
